@@ -60,9 +60,9 @@ int main()
 }
 
 void mirror_transform (unsigned char* in, int const height, int const width, int const channel, unsigned char* out) {
-    int i = 0; // in¿« ¿Œµ¶Ω∫
-	for(int h=1; h<=height; h++) { // ºº∑Œ π›∫π
-		for(int w=1; w<=width*channel; w++){ // ∞°∑Œ π›∫π
+    int i = 0; // inÏùò Ïù∏Îç±Ïä§
+	for(int h=1; h<=height; h++) { // ÏÑ∏Î°ú Î∞òÎ≥µ
+		for(int w=1; w<=width*channel; w++){ // Í∞ÄÎ°ú Î∞òÎ≥µ
 		    for(int k=0; k<channel; k++) {
 			    out[channel * (2*width*h - width -1) + 2*k - i] = in[i];
 			i++;
@@ -72,13 +72,13 @@ void mirror_transform (unsigned char* in, int const height, int const width, int
 }
 
 void grayScale_transform (unsigned char* in, int const height, int const width, int const channel, unsigned char* out) {
-    int i = 0;// in¿« ¿Œµ¶Ω∫
+    int i = 0;// inÏùò Ïù∏Îç±Ïä§
 	int sum = 0;
-	for(int h=1; h<=height; h++) { // ºº∑Œ π›∫π
-		for(int w=1; w<=width*channel; w++){ // ∞°∑Œ π›∫π
+	for(int h=1; h<=height; h++) { // ÏÑ∏Î°ú Î∞òÎ≥µ
+		for(int w=1; w<=width*channel; w++){ // Í∞ÄÎ°ú Î∞òÎ≥µ
 
 		    for(int k=0; k<channel; k++) {
-			    sum += int[i]
+			    sum += in[i]
 				if(k == channel-1) {
 					for(int a=0; a<channel; a++) {
 						out[i-a] = sum/channel;
@@ -92,9 +92,9 @@ void grayScale_transform (unsigned char* in, int const height, int const width, 
 }
 
 void sobelFiltering_transform (unsigned char* in, int const height, int const width, int const channel, unsigned char* out) {
-	int i = 0;// in¿« ¿Œµ¶Ω∫
-	for(int h=1; h<=height-2; h++) { // ºº∑Œ π›∫π
-		for(int w=1; w<=width*channel-2; w++){ // ∞°∑Œ π›∫π
+	int i = 0;// inÏùò Ïù∏Îç±Ïä§
+	for(int h=1; h<=height-2; h++) { // ÏÑ∏Î°ú Î∞òÎ≥µ
+		for(int w=1; w<=width*channel-2; w++){ // Í∞ÄÎ°ú Î∞òÎ≥µ
 		    out[i] = abs(in[i]*(-1) + in[i+2]*(1) + in[i+channel*width]*(-2) + in[i+2+channel*width]*(2) + in[i+2*channel*width]*(-1) + in[i+2+2*channel*width]*(1)) + abs(in[i]*(1) + in[i+1]*(2) + in[i+2]*(1) + in[i+2*channel*width]*(-1) + in[i+1+2*channel*width]*(-2) + in[i+2+2*channel*width]*(-1));
 			i++;
 		}
