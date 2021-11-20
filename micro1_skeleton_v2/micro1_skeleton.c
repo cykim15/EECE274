@@ -30,7 +30,7 @@ int main()
 
 
  	printf("Cheeze !\r\n");
-    system("libcamera-still --width 640 --height 480 -t 10 -o test_image.bmp");
+        system("libcamera-still --width 640 --height 480 -t 10 -o test_image.bmp");
 
  	
  	
@@ -78,7 +78,7 @@ void grayScale_transform (unsigned char* in, int const height, int const width, 
 		for(int w=1; w<=width*channel; w++){ // 가로 반복
 
 		    for(int k=0; k<channel; k++) {
-			    sum += in[i]
+			    sum += in[i];
 				if(k == channel-1) {
 					for(int a=0; a<channel; a++) {
 						out[i-a] = sum/channel;
