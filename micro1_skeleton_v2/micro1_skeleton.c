@@ -30,11 +30,11 @@ int main()
 
 
  	printf("Cheeze !\r\n");
-        system("libcamera-still --width 640 --height 480 -t 10 -o test_image.bmp");
+        system("libcamera-still --width 640 --height 480 -t 10 -o image.bmp");
 
  	
  	
- 	unsigned char* imgIn = stbi_load("test_image.bmp", &width, &height, &channel, 3);
+ 	unsigned char* imgIn = stbi_load("image.bmp", &width, &height, &channel, 3);
 
 
 	unsigned char* imgOut_mirror = (unsigned char*) malloc (sizeof(unsigned char)*3*640*480);
