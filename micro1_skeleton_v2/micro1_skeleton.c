@@ -30,9 +30,9 @@ int main()
 
 
  	printf("Cheeze !\r\n");
-    system("libcamera-still --width 640 --height 480 -t 10 -o test_image.bmp");
+        system("libcamera-still --width 640 --height 480 -t 10 -o image.bmp");
  	
- 	unsigned char* imgIn = stbi_load("test_image.bmp", &width, &height, &channel, 3);
+ 	unsigned char* imgIn = stbi_load("image.bmp", &width, &height, &channel, 3);
 
 	unsigned char* imgOut_mirror = (unsigned char*) malloc (sizeof(unsigned char)*3*640*480);
 	unsigned char* imgOut_grayScale = (unsigned char*) malloc (sizeof(unsigned char)*3*640*480);
@@ -57,10 +57,10 @@ int main()
 }
 
 void mirror_transform (unsigned char* in, int const height, int const width, int const channel, unsigned char* out) {
-    int i = 0; // inÀÇ ÀÎµ¦½º
+    int i = 0; // inì˜ ì¸ë±ìŠ¤
     int h, w; int k = 0;
-	for(h=1; h<=height; h++) { // ¼¼·Î ¹İº¹
-		for(w=1; w<=width*channel; w++){ // °¡·Î ¹İº¹	    
+	for(h=1; h<=height; h++) { // ì„¸ë¡œ ë°˜ë³µ
+		for(w=1; w<=width*channel; w++){ // ê°€ë¡œ ë°˜ë³µ	    
 			out[channel * (2*width*h - width -1) + 2*k - i] = in[i];
 			i++;
 			k++;
@@ -73,11 +73,11 @@ void mirror_transform (unsigned char* in, int const height, int const width, int
 }
 
 void grayScale_transform (unsigned char* in, int const height, int const width, int const channel, unsigned char* out) {
-    int i = 0;// inÀÇ ÀÎµ¦½º
+    int i = 0;// inì˜ ì¸ë±ìŠ¤
 	int sum = 0;
 	int h, w, a; int k = 0;
-	for(h=1; h<=height; h++) { // ¼¼·Î ¹İº¹
-		for(w=1; w<=width*channel; w++){ // °¡·Î ¹İº¹
+	for(h=1; h<=height; h++) { // ì„¸ë¡œ ë°˜ë³µ
+		for(w=1; w<=width*channel; w++){ // ê°€ë¡œ ë°˜ë³µ
 			sum += in[i];
 		    if(k == channel-1) {
 				for(a=0; a<channel; a++) {
@@ -95,24 +95,24 @@ void grayScale_transform (unsigned char* in, int const height, int const width, 
 }
 
 void sobelFiltering_transform (unsigned char* in, int const height, int const width, int const channel, unsigned char* out) {
-	int i = 0;// inÀÇ ÀÎµ¦½º
+	int i = 0;// inì˜ ì¸ë±ìŠ¤
 	int h, w, n, k, o;
 	float x_filter, y_filter;
 	 
-	for(n=0; n<channel*width; n++) { // zero padding: À§ ¾Æ·¡
+	for(n=0; n<channel*width; n++) { // zero padding: ìœ„ ì•„ë˜
 		out[n] = 0; out[n+channel*width*(height-1)] = 0;
 	}
-	for(n=0; n<height; n++) { // zero padding: ¾ç ¿·
+	for(n=0; n<height; n++) { // zero padding: ì–‘ ì˜†
 		for(k=0; k<channel; k++) {
 			out[k + channel*width*n] = 0; out[k + channel*(width-1) + channel * width *n] = 0;
 		} 
 	}
 	
 	
-	o = channel * width + channel; // paddingÀ¸·Î ÀÎÇÑ outÀÇ ½ÃÀÛ index
+	o = channel * width + channel; // paddingìœ¼ë¡œ ì¸í•œ outì˜ ì‹œì‘ index
 	
-	for(h=1; h<=height-4; h++) { // ¼¼·Î ¹İº¹
-		for(w=1; w<=width-2; w++){ // °¡·Î ¹İº¹
+	for(h=1; h<=height-4; h++) { // ì„¸ë¡œ ë°˜ë³µ
+		for(w=1; w<=width-2; w++){ // ê°€ë¡œ ë°˜ë³µ
 		    x_filter = abs(in[i]*(-1) + in[i+2*channel]*(1) + in[i+channel*width]*(-2) + in[i+2*channel+channel*width]*(2) + in[i+2*channel*width]*(-1) + in[i+2*channel+2*channel*width]*(1));
 		    y_filter = abs(in[i]*(1) + in[i+channel]*(2) + in[i+2*channel]*(1) + in[i+2*channel*width]*(-1) + in[i+channel+2*channel*width]*(-2) + in[i+2*channel+2*channel*width]*(-1));
 		    for(k=0; k<channel; k++) {
